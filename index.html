@@ -15,7 +15,7 @@
 			font-family: 'Roboto','Helvetica','Arial',sans-serif;
 		}
 		.page-content {
-			padding: 40px;
+			padding: 20px 32px;
 			border-radius: 2px;
 		}
 		#add {
@@ -23,6 +23,38 @@
 			right: 40px;
 			top: 36px;
 			z-index: 999;
+		}
+		.item-list {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			top: 64px;
+			overflow: auto;
+		}
+		.item-list ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		.item-list a {
+			display: block;
+			padding: 14px 20px;
+			text-decoration: none;
+			border-bottom: 1px solid #e0e0e0;
+		}
+		.item-list a:hover {
+			background-color: #e0e0e0;
+		}
+		@media screen and (max-width: 850px) {
+			#add {
+				right: 20px;
+				height: 34px;
+				width: 34px;
+				min-width: 34px;
+			}
+			.item-list {
+				top: 56px;
+			}
 		}
 	</style>
 </head>
@@ -36,7 +68,7 @@
 		</div>
 
 		<!-- Add button -->
-		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add" data-bind="visible: showAddButton">
+		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add" data-bind="visible: showAddButton, click: clickAddButton">
 			<i class="material-icons">add</i>
 			<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
 		</button>
@@ -52,23 +84,48 @@
 	</div>
 	<main class="mdl-layout__content">
 		<div class="mdl-grid">
-			<div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-			<div class="page-content mdl-cell mdl-cell--8-col mdl-color--white">
+			<div class="mdl-cell mdl-cell--4-col"></div>
 
-				<p data-bind="visible: 'campaign'===selectedPage().id">
-				Welcome.
-				</p>
-
-				<form action="#" id="encounter_form" data-bind="visible: 'encounter'===selectedPage().id">
-					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-						<input class="mdl-textfield__input" type="text" id="encounter_title" />
-						<label class="mdl-textfield__label" for="encounter_title">Title</label>
-					</div>
-				</form>
+			<!-- Object list view -->
+			<div class="mdl-cell mdl-cell--4-col item-list" data-bind="visible: selectedPage().objects && selectedPage().objects.length > 0">
+				<ul data-bind="foreach: selectedPage().objects">
+					<li><a href="" data-bind="text: title, click: $root.selectPageObject"></a></li>
+				</nav>
 			</div>
+
+			<!-- Object detail view -->
+			<div class="mdl-cell mdl-cell--8-col" data-bind="template: { name: selectedPage().templateName(), data: selectedPage().selectedObject(), if: selectedPage().selectedObject() && selectedPage().templateName().length > 0 }">
+			</div>
+
+			<!-- <div class="mdl-cell mdl-cell--8-col" data-bind="visible: 'encounter'===selectedPage().id">
+			</div> -->
+
+			<div class="mdl-cell mdl-cell--8-col" data-bind="visible: 'campaign'===selectedPage().id">
+				<div class="page-content mdl-color--white">
+					<p>Welcome.</p>
+				</div>
+			</div>
+
 		</div>
 	</main>
 </div>
+
+<!-- Encounter -->
+<script type="text/html" id="encounter-template">
+	<div class="page-content mdl-color--white">
+		<h4>Encounter detail</h4>
+		<form action="#" id="add_encounter">
+			<div class="mdl-grid">
+				<div class="mdl-cell mdl-cell--3-col"><label class="" for="encounter_title">Title</label></div>
+				<div class="mdl-cell mdl-cell--9-col"><input class="mdl-textfield__input" type="text" id="encounter_title" data-bind="value: title"></div>
+			</div>
+			<div class="mdl-grid">
+				<div class="mdl-cell mdl-cell--3-col"><label class="" for="encounter_notes">Notes</label></div>
+				<div class="mdl-cell mdl-cell--9-col"><textarea class="mdl-textfield__input" type="text" rows= "3" id="encounter_notes" data-bind="value: notes"></textarea></div>
+			</div>
+		</form>
+	</div>
+</script>
 
 	<!-- Scripts -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
