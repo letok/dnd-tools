@@ -7,8 +7,9 @@ function DndTools() {
 
 	self.selectedPage = ko.observable();
 	self.pages = [
-		new Page("campaigns", "Campaigns", "language"),
-		new Page("monsters", "Monsters", "adb")
+		new Page("campaign", "Campaign", "language", false),
+		new Page("encounter", "Encounters", "warning", true),
+		new Page("monster", "Monster templates", "adb", false)
 	];
 
 	// Behaviour
@@ -25,6 +26,10 @@ function DndTools() {
 		self.selectedPage(self.pages[0]);
 	}
 
+	self.showAddButton = ko.pureComputed(function() {
+		return this.selectedPage().allowsAdd === true;
+	}, self);
+
 	// Init
 
 	// Go to default page
@@ -34,11 +39,16 @@ function DndTools() {
 
 // Models
 
-function Page(id, title, icon) {
-	var self = this;
-	self.id = id;
-	self.title = title;
-	self.icon = icon;
+function Page(id, title, icon, allowsAdd) {
+	this.id = id;
+	this.title = title;
+	this.icon = icon;
+	this.allowsAdd = allowsAdd;
+}
+
+function Encounter(id, title) {
+	this.id = id;
+	this.title = title;
 }
 
 // Init

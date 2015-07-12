@@ -15,8 +15,14 @@
 			font-family: 'Roboto','Helvetica','Arial',sans-serif;
 		}
 		.page-content {
-			padding: 80px 56px;
+			padding: 40px;
 			border-radius: 2px;
+		}
+		#add {
+			position: absolute;
+			right: 40px;
+			top: 36px;
+			z-index: 999;
 		}
 	</style>
 </head>
@@ -26,9 +32,14 @@
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--grey-100">
 	<header class="mdl-layout__header">
 		<div class="mdl-layout__header-row">
-			<!-- Title -->
-			<span class="mdl-layout-title" data-bind="text: selectedPage().title">Title</span>
+			<span class="mdl-layout-title" data-bind="text: selectedPage().title"></span>
 		</div>
+
+		<!-- Add button -->
+		<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add" data-bind="visible: showAddButton">
+			<i class="material-icons">add</i>
+			<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+		</button>
 	</header>
 	<div class="mdl-layout__drawer">
 		<span class="mdl-layout-title">D&D Tools</span>
@@ -42,8 +53,18 @@
 	<main class="mdl-layout__content">
 		<div class="mdl-grid">
 			<div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-			<div class="page-content mdl-cell mdl-cell--8-col mdl-color--white mdl-shadow--4dp">
-				Hello, world.
+			<div class="page-content mdl-cell mdl-cell--8-col mdl-color--white">
+
+				<p data-bind="visible: 'campaign'===selectedPage().id">
+				Welcome.
+				</p>
+
+				<form action="#" id="encounter_form" data-bind="visible: 'encounter'===selectedPage().id">
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input" type="text" id="encounter_title" />
+						<label class="mdl-textfield__label" for="encounter_title">Title</label>
+					</div>
+				</form>
 			</div>
 		</div>
 	</main>
