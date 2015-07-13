@@ -87,8 +87,8 @@
 			<div class="mdl-cell mdl-cell--4-col"></div>
 
 			<!-- Object list view -->
-			<div class="mdl-cell mdl-cell--4-col item-list" data-bind="visible: selectedPage().objects && selectedPage().objects.length > 0">
-				<ul data-bind="foreach: selectedPage().objects">
+			<div class="mdl-cell mdl-cell--4-col item-list" data-bind="with: selectedPage, visible: selectedPage().objects() && selectedPage().objects().length > 0">
+				<ul data-bind="foreach: objects">
 					<li><a href="" data-bind="text: title, click: $root.selectPageObject"></a></li>
 				</nav>
 			</div>

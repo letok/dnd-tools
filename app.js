@@ -63,7 +63,7 @@ function Page(id, title, icon, allowsAdd, objects) {
 	this.title = title;
 	this.icon = icon;
 	this.allowsAdd = allowsAdd;
-	this.objects = objects;
+	this.objects = ko.observableArray(objects);
 
 	this.templateName = function() {
 		var name = this.id + '-template';
@@ -75,7 +75,7 @@ function Page(id, title, icon, allowsAdd, objects) {
 
 function Encounter(id, title, notes) {
 	this.id = id;
-	this.title = title || 'Untitled';
+	this.title = ko.observable(title || 'Untitled');
 	this.notes = notes || '';
 }
 
