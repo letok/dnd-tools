@@ -49,6 +49,10 @@ function DndTools() {
 		self.addButtonClick(true);
 	}
 
+	self.updateComponents = function() {
+		componentHandler.upgradeDom();
+	}
+
 	// Init
 
 	// Go to default page
@@ -74,9 +78,34 @@ function Page(id, title, icon, allowsAdd, objects) {
 }
 
 function Encounter(id, title, notes) {
+	var self = this;
+
+	self.id = id;
+	self.title = ko.observable(title || 'Untitled');
+	self.notes = notes || '';
+	self.monsters = ko.observableArray([]);
+
+	self.totalCR = ko.pureComputed(function() {
+		var cr = 0;
+		for (var i = 0; i < self.monsters().length; i++) {
+			cr += self.monsters()[i].challengeRating;
+		};
+		return cr;
+	}, self);
+
+	self.addMonster = function(formElement) {
+		var name = document.getElementById('encounter_monster_search').value || 'Monster';
+		self.monsters.push(new Monster(1, name, 4));
+	}
+}
+
+function Monster(id, name, challengeRating, armourClass, hitPoints) {
 	this.id = id;
-	this.title = ko.observable(title || 'Untitled');
-	this.notes = notes || '';
+	this.name = ko.observable(name || 'Unnamed monster');
+	this.challengeRating = challengeRating || 0;
+	this.armourClass = armourClass || 0;
+	this.hitPoints = hitPoints || 0;
+	// TODO add more fields
 }
 
 // Init

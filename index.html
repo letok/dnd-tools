@@ -94,7 +94,11 @@
 			</div>
 
 			<!-- Object detail view -->
-			<div class="mdl-cell mdl-cell--8-col" data-bind="template: { name: selectedPage().templateName(), data: selectedPage().selectedObject(), if: selectedPage().selectedObject() && selectedPage().templateName().length > 0 }">
+			<div class="mdl-cell mdl-cell--8-col" data-bind="template: { 
+				name: selectedPage().templateName(), 
+				data: selectedPage().selectedObject(), 
+				if: selectedPage().selectedObject() && selectedPage().templateName().length > 0,
+				afterRender: updateComponents }">
 			</div>
 
 			<!-- <div class="mdl-cell mdl-cell--8-col" data-bind="visible: 'encounter'===selectedPage().id">
@@ -113,17 +117,56 @@
 <!-- Encounter -->
 <script type="text/html" id="encounter-template">
 	<div class="page-content mdl-color--white">
-		<h4>Encounter detail</h4>
-		<form action="#" id="add_encounter">
-			<div class="mdl-grid">
-				<div class="mdl-cell mdl-cell--3-col"><label class="" for="encounter_title">Title</label></div>
-				<div class="mdl-cell mdl-cell--9-col"><input class="mdl-textfield__input" type="text" id="encounter_title" data-bind="value: title"></div>
+		<h3>Encounter detail</h3>
+		<div class="mdl-grid">
+			<div class="mdl-cell mdl-cell--6-col">
+
+				<form action="#" id="add_encounter">
+					<div class="mdl-grid">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" id="encounter_title" data-bind="value: title" />
+							<label class="mdl-textfield__label" for="encounter_title">Title</label>
+						</div>
+					</div>
+
+					<div class="mdl-grid">
+						<div class="mdl-textfield mdl-js-textfield textfield-demo">
+							<textarea class="mdl-textfield__input" type="text" rows= "3" id="encounter_notes" data-bind="value: notes"></textarea>
+							<label class="mdl-textfield__label" for="encounter_notes">Notes...</label>
+						</div>
+					</div>
+				</form>
+
 			</div>
-			<div class="mdl-grid">
-				<div class="mdl-cell mdl-cell--3-col"><label class="" for="encounter_notes">Notes</label></div>
-				<div class="mdl-cell mdl-cell--9-col"><textarea class="mdl-textfield__input" type="text" rows= "3" id="encounter_notes" data-bind="value: notes"></textarea></div>
+			<div class="mdl-cell mdl-cell--6-col">
+
+				<div class="mdl-grid">
+					<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
+						<input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" />
+						<span class="mdl-checkbox__label">Completed</span>
+					</label>
+				</div>
+
+				<div class="mdl-grid">
+					<strong>Total challenge rating:</strong>
+					<span data-bind="text: totalCR"></span>
+				</div>
+
 			</div>
+		</div>
+
+		<h5>Monsters</h5>
+		<form action="#" data-bind="submit: addMonster">
+			<!-- <select data-bind="options: monsters, value: name"></select> -->
+			<div class="mdl-textfield mdl-js-textfield">
+				<input class="mdl-textfield__input" type="text" id="encounter_monster_search" />
+				<label class="mdl-textfield__label" for="encounter_monster_search">Search...</label>
+			</div>
+			<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Add</button>
 		</form>
+		<ul data-bind="foreach: monsters">
+			<li data-bind="text: name"></li>
+		</ul>
 	</div>
 </script>
 
